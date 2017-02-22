@@ -1,0 +1,2 @@
+11;120_ГБ_SSD-накопитель_SiliconPower_Velox_V55_[SP120GBSS3V55S25];3150;3250
+24;Блок_питания_Aerocool_KCAS-700W_[KCAS-700W];3399;3450
