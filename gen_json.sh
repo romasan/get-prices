@@ -1,9 +1,14 @@
 #!/bin/sh
+
 I=1;
+
 FILE='./tmp';
+
 echo '{"data":[' > $FILE;                            # {
+
 for LINE in `cat list | sed 's/\ /\_/g'`;
 do
+
 	if [ $I -gt 1 ]; then
 		echo "," >> $FILE
 	fi
@@ -53,5 +58,7 @@ echo ']' >> $FILE;
 # fi
 
 echo '}' >> $FILE;                                  # {}
+
 echo $(cat $FILE) | sed 's/\ //g' > /home/r/projects/dns_price/data.json;
+
 rm $FILE;
