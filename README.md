@@ -1,2 +1,1 @@
-# price counter
 # get-prices
