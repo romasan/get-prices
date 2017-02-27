@@ -1,64 +1,66 @@
 #!/bin/sh
 
-I=1;
-
 FILE='./tmp';
 
-echo '{"data":[' > $FILE;                            # {
+echo '{"data":[' > $FILE; # start json
 
-for LINE in `cat list | sed 's/\ /\_/g'`;
+SOURCEINDEX=1;
+for SOURCE in `ls -A ./sources/`;
 do
-
-	if [ $I -gt 1 ]; then
-		echo "," >> $FILE
+	
+	if [ $SOURCEINDEX -gt 1 ]; then
+		echo "," >> $FILE;
 	fi
 
-	echo '{' >> $FILE;                                 # {{
+	echo '{"name":"'$SOURCE'","positions":[' >> $FILE; # start source
 	
-	NAME=`echo $LINE | awk -F '\\;' '{print $1}'`;
-	echo '"name":"'$NAME'",' >> $FILE;
-	
-	URL=`echo $LINE | awk -F '\\;' '{print $2}'`;
-	echo '"url":"'$URL'",' >> $FILE;
-
-	echo '"rows":[' >> $FILE;                          # {{[
-	
-	ROWNUM=1;
-	for ROW in `cat './data/'$I | sed 's/\ /\_/g'`;
+	I=1;
+	for LINE in `cat './sources/'$SOURCE'/list' | sed 's/\ /\_/g'`;
 	do
+
+		if [ $I -gt 1 ]; then
+			echo "," >> $FILE
+		fi
+
+		NAME=`echo $LINE | awk -F '\\;' '{print $1}'`;
+		echo '{"name":"'$NAME'",' >> $FILE; # start position
+	
+		URL=`echo $LINE | awk -F '\\;' '{print $2}'`;
+		echo '"url":"'$URL'",' >> $FILE;
+		echo '"id":"'$I'",' >> $FILE;
+
+		echo '"rows":[' >> $FILE;
+	
+		ROWNUM=1;
+		for ROW in `cat './sources/'$SOURCE'/data/'$I | sed 's/\ /\_/g'`;
+		do
 		
-		if [ $ROWNUM -gt 3 ]; then
-			echo ',' >> $FILE;
-		fi
+			if [ $ROWNUM -gt 3 ]; then
+				echo ',' >> $FILE;
+			fi
 
-		if [ $ROWNUM -gt 2 ]; then
-			echo '{' >> $FILE;                             # {{[{
-			PRICE=`echo $ROW | awk -F '\\;' '{print $1}'`;
-			echo '"price":"'$PRICE'",' >> $FILE;
-			DATE=`echo $ROW | awk -F '\\;' '{print $2}'`;
-		# sdate=`echo $DATE | sed 's/\_/\ /g'`;
-			echo '"date":"'$DATE'"' >> $FILE;
-			echo '}' >> $FILE;                             # {{[{}
-		fi
+			if [ $ROWNUM -gt 2 ]; then
+				PRICE=`echo $ROW | awk -F '\\;' '{print $1}'`;
+				echo '{"price":"'$PRICE'",' >> $FILE; # start row
+				DATE=`echo $ROW | awk -F '\\;' '{print $2}'`;
+				echo '"date":"'$DATE'"}' >> $FILE; # end row
+			fi
 
-		ROWNUM=$((ROWNUM+1));
+			ROWNUM=$((ROWNUM+1));
+		done;
+
+		echo ']}' >> $FILE; # end position
+
+		I=$((I+1));
 	done;
 
+	echo ']}' >> $FILE; # end source
 
-	echo ']}' >> $FILE;                               # {{[]}
-
-	
-	I=$((I+1));
+	SOURCEINDEX=$((SOURCEINDEX+1));
 done;
-echo ']' >> $FILE;
 
-# laslogdata=`tail -1 ./log`;
-# if test -e './changes_'$lastlogdata; then
-# 	echo '\,\"changes\"\:\['
-# fi
+echo ']}' >> $FILE; # end json
 
-echo '}' >> $FILE;                                  # {}
-
-echo $(cat $FILE) | sed 's/\ //g' > /home/r/projects/dns_price/data.json;
+echo $(cat $FILE) | sed 's/\ //g' > '/home/r/projects/prices/data.json';
 
 rm $FILE;

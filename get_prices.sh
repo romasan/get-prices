@@ -38,6 +38,7 @@ do
 
 	if [ $HASCHANGES == true ]; then
 		echo 'RUN' $STARTDATE 'with changes' >> './sources/'$SOURCE'/log'
+		sh ./gen_json.sh
 	else
 		echo 'RUN' $STARTDATE >> './sources/'$SOURCE'/log'
 	fi
