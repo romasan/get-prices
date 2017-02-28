@@ -61,6 +61,6 @@ done;
 
 echo ']}' >> $FILE; # end json
 
-echo $(cat $FILE) | sed 's/\ //g' > '/home/r/projects/prices/data.json';
+echo $(cat $FILE) | sed 's/\ //g' > './web/data.json';
 
 rm $FILE;
