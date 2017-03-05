@@ -18,7 +18,7 @@ do
 		COOKIE=`cat ./sources/$SOURCE/cookie`;
 		
 		PRICE=`curl -s --cookie $COOKIE	$URL | './sources/'$SOURCE'/filter.sh'`;
-		
+
 		if test -e './sources/'$SOURCE'/data/'$I; then
 			LASTPRICE=`tail -1 './sources/'$SOURCE'/data/'$I | awk -F '\\;' '{print $1}'`
 			if [ "$LASTPRICE" != "$PRICE" ]; then

@@ -1,5 +1,7 @@
 #!/bin/sh
 
+STARTDATE=`date +'%d %b %G (%T)'`;
+
 FILE='./tmp';
 
 echo '{"data":[' > $FILE; # start json
@@ -22,7 +24,7 @@ do
 			echo "," >> $FILE
 		fi
 
-		NAME=`echo $LINE | awk -F '\\;' '{print $1}'`;
+		NAME=`echo $LINE | awk -F '\\;' '{print $1}' | sed 's/\"/\&quot\;/g'`;
 		echo '{"name":"'$NAME'",' >> $FILE; # start position
 	
 		URL=`echo $LINE | awk -F '\\;' '{print $2}'`;
@@ -61,6 +63,8 @@ done;
 
 echo ']}' >> $FILE; # end json
 
-echo $(cat $FILE) | sed 's/\ //g' > './web/data.json';
+echo $(cat $FILE) | sed 's/\ //g' | sed 's/\_/\ /g' > './web/data.json';
 
 rm $FILE;
+
+echo 'GEN JSON' $STARTDATE >> log

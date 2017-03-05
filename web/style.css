@@ -1,0 +1,39 @@
+.storename {
+	text-align: center;
+	font-size: 20pt;
+	font-family: Arial;
+}
+.name a {
+	color: black;
+	text-decoration: none;
+}
+.name a:hover {
+	color: blue;
+	text-decoration: underline;
+}
+.name a .hint {
+	display: none;
+	position: absolute;
+	background: #ffffff;
+	border-radius: 5px;
+	border: 1px solid #cccccc;
+}
+.name a:hover .hint {
+	display: block;
+}
+.row {
+	padding-bottom: 20px;
+}
+.b {
+	font-weight: bold;
+}
+.green {
+	color: green;
+}
+.red {
+	color: red;
+}
+.price sup {
+	font-size: 6pt;
+	margin-left: -3px;
+}
