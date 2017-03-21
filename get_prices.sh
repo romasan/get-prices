@@ -6,12 +6,14 @@ for SOURCE in `ls -A ./sources/`;
 do
 
 	I=1;
+	COUNT=`wc -l './sources/'$SOURCE'/list'`;
 	
 	CHANGESFILENAME=`echo './sources/'$SOURCE'/changes/'$STARTDATE | sed 's/\ /\_/g'`;
 	
 	for LINE in `cat './sources/'$SOURCE'/list' | sed 's/\ /\_/g'`;
 	do
-		
+#		clear;
+#		echo 'processing item: '$I' of '$COUNT;
 		NAME=`echo $LINE | awk -F '\\;' '{print $1}'`;
 		URL=`echo $LINE | awk -F '\\;' '{print $2}'`;
 		
