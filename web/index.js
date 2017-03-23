@@ -9,6 +9,7 @@ document.addEventListener("DOMContentLoaded", e => {
 	}
 });
 let grow = (p, n) =>
+	p == 0 ? '' :
 	(p > n ? '-' : '+') +
 	(p > n
 		? (p - n) / (p / 100)
@@ -62,7 +63,7 @@ let stat = e => {
 												: ''
 										}
 									</sup>`
-								: 'Нет в наличии'
+								: '<span class="e404"><div>Нет в</div><div>наличии</div></span>'
 							}
 						</span>
 					`).join('\n')}

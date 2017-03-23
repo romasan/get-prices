@@ -12,8 +12,12 @@ do
 	
 	for LINE in `cat './sources/'$SOURCE'/list' | sed 's/\ /\_/g'`;
 	do
-#		clear;
-#		echo 'processing item: '$I' of '$COUNT;
+
+		if [ -n "$1" ] && [ $1 == "log" ]; then
+			clear;
+			echo 'processing item: '$I' of '$COUNT;
+		fi
+
 		NAME=`echo $LINE | awk -F '\\;' '{print $1}'`;
 		URL=`echo $LINE | awk -F '\\;' '{print $2}'`;
 		
